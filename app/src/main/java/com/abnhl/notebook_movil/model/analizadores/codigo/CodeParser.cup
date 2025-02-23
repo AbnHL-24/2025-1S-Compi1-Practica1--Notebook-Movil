@@ -1,0 +1,45 @@
+package com.abnhl.notebook_movil.model.analizadores.codigo;
+
+// Importaciones.
+import java_cup.runtime.*;
+import java.util.LinkedList;
+import java.util.ArrayList;
+
+// Expresiones.
+
+// Instrucciones.
+
+// Excepciones y errores.
+
+parser code
+{:
+    CodeLexer codeLexer;
+    CodeParser(CodeLexer codeLexer) { this.codeLexer = codeLexer; }
+
+    /*// Errores recuperables.
+    public void syntax_error(Symbol s) {
+        erroresSintacticos.add(new ErroresExpresiones("SINTÁCTICO RECUPERABLE",
+                    "No se esperaba el componente " + s.value,
+                    s.left,
+                    s.right));
+    }
+
+    // Errores no recuperables.
+    public void unrecovered_syntax_error(Symbol s) {
+        erroresSintacticos.add(new ErroresExpresiones("SINTÁCTICO NO RECUPERABLE",
+                    "No se esperaba el componente "+s.value,
+                    s.left,
+                    s.right));
+    }*/
+:}
+
+action code
+{:
+:}
+
+// Simbolos terminales.
+terminal String ID, CADENA, DECIMAL, ENTERO;
+terminal MAS, MENOS, MULT, DIV, POW;
+terminal ASIGNACION, PARENT_IZQ, PARENT_DER, PUNTO;
+
+// Simbolos no terminales.

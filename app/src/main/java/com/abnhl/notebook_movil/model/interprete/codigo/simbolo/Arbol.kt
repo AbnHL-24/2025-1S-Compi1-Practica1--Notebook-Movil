@@ -4,16 +4,14 @@ import com.abnhl.notebook_movil.model.interprete.codigo.abstracto.Instruccion
 import com.abnhl.notebook_movil.model.interprete.codigo.excepciones.Errores
 import java.util.LinkedList
 
-abstract class Arbol(
+class Arbol(
     val instrucciones: LinkedList<Instruccion>,
-    val consola: String = "",
+    private val consola: String = "",
     val errores: LinkedList<Errores> = LinkedList(),
     val tablaGobal: TablaSimbolos,
     val funciones: LinkedList<Instruccion>
 ) {
-
-    abstract fun interpretar(
-        arbol: Arbol,
-        tablaDeSimbolos: TablaSimbolos
-    ): Any
+    fun print(valor: String) {
+        this.consola.plus(valor)
+    }
 }

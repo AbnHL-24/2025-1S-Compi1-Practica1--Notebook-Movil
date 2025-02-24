@@ -1,14 +1,16 @@
 package com.abnhl.notebook_movil.model.analizadores.codigo;
 
-// Importaciones.
+// Importaciones principales.
 import java_cup.runtime.*;
 import java.util.LinkedList;
 import java.util.ArrayList;
-
+import com.abnhl.notebook_movil.model.interprete.codigo.simbolo.*;
+import com.abnhl.notebook_movil.model.interprete.codigo.excepciones.*;
+import com.abnhl.notebook_movil.model.interprete.codigo.abstracto.*;
 // Expresiones.
-
+import com.abnhl.notebook_movil.model.interprete.codigo.expresiones.*;
 // Instrucciones.
-
+import com.abnhl.notebook_movil.model.interprete.codigo.instrucciones.*;
 // Excepciones y errores.
 
 parser code
@@ -59,4 +61,27 @@ start with INICIO;
 INICIO ::= INSTRUCCIONES;
 
 INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION // Gramatica ascendente, recursiva por la izquierda.
-                | INSTRUCCION;              // Cup trabaja con gramaticas ascendentes.
+                | INSTRUCCION              // Cup trabaja con gramaticas ascendentes.
+;
+
+INSTRUCCION ::= IMPRESION
+;
+
+IMPRESION ::= PRINT PARENT_IZQ EXPRESION:a PARENT_DER
+;
+
+EXPRESION ::= MENOS EXPRESION:a %prec UMENOS
+            | EXPRESION MAS EXPRESION
+            | EXPRESION MENOS EXPRESION
+            | EXPRESION MULT EXPRESION
+            | EXPRESION DIV EXPRESION
+            | EXPRESION POW EXPRESION
+            | EXPRESIONES_NATIVAS {: RESULT = a; :}
+            | ID
+            | PARENT_IZQ EXPRESION:a PARENT_DER {: RESULT = a; :}
+;
+
+EXPRESIONES_NATIVAS ::= DECIMAL:a {: RESULT = new NativoExpr(Double.parseDouble(a), Tipo(TipoDato.DECIMAL), aleft, aright); :}
+                      | ENTERO:a {: RESULT = new NativoExpr(Integer.parseInt(a), Tipo(TipoDato.ENTERO), aleft, aright); :}
+                      | CADENA:a {: RESULT = new NativoExpr(a, Tipo(TipoDato.CADENA), aleft, aright); :}
+;

@@ -4,4 +4,5 @@ enum class TipoDato(val valorPredeterminado: Any) {
     ENTERO(0),
     DECIMAL(0.0),
     CADENA(""),
+    VACIO("")
 }

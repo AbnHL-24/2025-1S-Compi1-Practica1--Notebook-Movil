@@ -38,8 +38,25 @@ action code
 :}
 
 // Simbolos terminales.
-terminal String ID, CADENA, DECIMAL, ENTERO;
-terminal MAS, MENOS, MULT, DIV, POW;
+terminal MAS, MENOS, MULT, DIV, POW, UMENOS;
 terminal ASIGNACION, PARENT_IZQ, PARENT_DER, PUNTO;
+terminal String ID, DECIMAL, ENTERO, CADENA; // Van como String porque necesito acceder a su valor.
 
 // Simbolos no terminales.
+nonterminal INICIO;
+nonterminal INSTRUCCIONES, INSTRUCCION;
+
+// Precedencias.
+precedence left MAS;
+precedence left MENOS;
+precedence left MULT, DIV;
+precedence nonassoc POW;
+precedence left PARENT_IZQ, PARENT_DER;
+precedence right UMENOS;
+
+start with INICIO;
+// Definición de la gramática.
+INICIO ::= INSTRUCCIONES;
+
+INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION // Gramatica ascendente, recursiva por la izquierda.
+                | INSTRUCCION;              // Cup trabaja con gramaticas ascendentes.

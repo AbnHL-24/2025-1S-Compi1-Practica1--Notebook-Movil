@@ -37,11 +37,6 @@ OPERADORES = "operadores" // Operadores.
 ERRORES = "errores" // Errores.
 
 // Simbolos del lenguaje.
-ID = [a-zA-Z][a-zA-Z0-9_]* // Identificador.
-CADENA = [\"]((\\\")|[^\"\n]*)[\"] // Cadena de texto.
-//CARACTER = [']([^'\n])['] // Caracter.
-DECIMAL = [0-9]+"."[0-9]+ // Decimal.
-ENTERO = [0-9]+ // Entero.
 MAS = "+" // Suma.
 MENOS = "-" // Resta.
 MULT = "*" // Multiplicación.
@@ -51,7 +46,10 @@ ASIGNACION = "=" // Asignación.
 PARENT_IZQ = "(" // Parentesis izquierdo.
 PARENT_DER = ")" // Parentesis derecho.
 PUNTO = "." // Punto.
-
+ID = [a-zA-Z][a-zA-Z0-9_]* // Identificador.
+DECIMAL = [0-9]+"."[0-9]+ // Decimal.
+ENTERO = [0-9]+ // Entero.
+CADENA = [\"]((\\\")|[^\"\n]*)[\"] // Cadena de texto.
 
 %%
 // Aquí importa el orden.
@@ -63,10 +61,6 @@ PUNTO = "." // Punto.
 <YYINITIAL> {OPERADORES} { return new Symbol(sym.OPERADORES, yyline, yycolumn, yytext()); }
 <YYINITIAL> {ERRORES} { return new Symbol(sym.ERRORES, yyline, yycolumn, yytext()); }
 // Simbolos.
-<YYINITIAL> {ID} { return new Symbol(sym.ID, yyline, yycolumn, yytext()); }
-<YYINITIAL> {CADENA} { return new Symbol(sym.CADENA, yyline, yycolumn, yytext()); }
-<YYINITIAL> {DECIMAL} { return new Symbol(sym.DECIMAL, yyline, yycolumn, yytext()); }
-<YYINITIAL> {ENTERO} { return new Symbol(sym.ENTERO, yyline, yycolumn, yytext()); }
 <YYINITIAL> {MAS} { return new Symbol(sym.MAS, yyline, yycolumn, yytext()); }
 <YYINITIAL> {MENOS} { return new Symbol(sym.MENOS, yyline, yycolumn, yytext()); }
 <YYINITIAL> {MULT} { return new Symbol(sym.MULT, yyline, yycolumn, yytext()); }
@@ -76,6 +70,10 @@ PUNTO = "." // Punto.
 <YYINITIAL> {PARENT_IZQ} { return new Symbol(sym.PARENT_IZQ, yyline, yycolumn, yytext()); }
 <YYINITIAL> {PARENT_DER} { return new Symbol(sym.PARENT_DER, yyline, yycolumn, yytext()); }
 <YYINITIAL> {PUNTO} { return new Symbol(sym.PUNTO, yyline, yycolumn, yytext()); }
+<YYINITIAL> {ID} { return new Symbol(sym.ID, yyline, yycolumn, yytext()); }
+<YYINITIAL> {DECIMAL} { return new Symbol(sym.DECIMAL, yyline, yycolumn, yytext()); }
+<YYINITIAL> {ENTERO} { return new Symbol(sym.ENTERO, yyline, yycolumn, yytext()); }
+<YYINITIAL> {CADENA} { return new Symbol(sym.CADENA, yyline, yycolumn, yytext()); }
 
 // Errores lexicos.
 /*<YYINITIAL> . {erroresLexicos.add(new ErroresExpresiones("LEXICO",

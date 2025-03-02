@@ -2,6 +2,7 @@ package com.abnhl.notebook_movil.model.analizadores.codigo;
 
 // Importaciones principales.
 import java_cup.runtime.*;
+import java_cup.runtime.Symbol.*;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import com.abnhl.notebook_movil.model.interprete.codigo.simbolo.*;
@@ -40,13 +41,15 @@ action code
 :}
 
 // Simbolos terminales.
-terminal MAS, MENOS, MULT, DIV, POW, UMENOS;
+terminal PRINT, FORMAT, PLOT, REPORTES, OPERADORES, ERRORES;
+terminal MAS, MENOS, MULT, DIV, POW;
 terminal ASIGNACION, PARENT_IZQ, PARENT_DER, PUNTO;
 terminal String ID, DECIMAL, ENTERO, CADENA; // Van como String porque necesito acceder a su valor.
 
 // Simbolos no terminales.
-nonterminal INICIO;
-nonterminal INSTRUCCIONES, INSTRUCCION;
+nonterminal LinkedList<Instruccion> INICIO, INSTRUCCIONES;
+nonterminal Instruccion INSTRUCCION, EXPRESION, EXPRESIONES_NATIVAS;
+nonterminal Instruccion IMPRESION;
 
 // Precedencias.
 precedence left MAS;
@@ -54,30 +57,31 @@ precedence left MENOS;
 precedence left MULT, DIV;
 precedence nonassoc POW;
 precedence left PARENT_IZQ, PARENT_DER;
-precedence right UMENOS;
 
-start with INICIO;
 // Definición de la gramática.
+// Gramatica ascendente, recursiva por la izquierda.
+// Cup trabaja con gramaticas ascendentes.
+start with INICIO;
 INICIO ::= INSTRUCCIONES;
 
-INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION // Gramatica ascendente, recursiva por la izquierda.
-                | INSTRUCCION              // Cup trabaja con gramaticas ascendentes.
+INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
+                | INSTRUCCION:a {: RESULT = new LinkedList<Instruccion>();
+                                   RESULT.add(a); :}
 ;
 
 INSTRUCCION ::= IMPRESION
 ;
 
-IMPRESION ::= PRINT PARENT_IZQ EXPRESION:a PARENT_DER
+IMPRESION ::= PRINT PARENT_IZQ EXPRESION:a PARENT_DER {: RESULT = new ImprimirInst(a, aleft, aright); :}
 ;
 
-EXPRESION ::= MENOS EXPRESION:a %prec UMENOS
-            | EXPRESION MAS EXPRESION
-            | EXPRESION MENOS EXPRESION
-            | EXPRESION MULT EXPRESION
-            | EXPRESION DIV EXPRESION
-            | EXPRESION POW EXPRESION
+EXPRESION ::= EXPRESION:a MAS EXPRESION:b {: RESULT = new SumaExpr(a, b, aleft, aright); :}
+            | EXPRESION:a MENOS EXPRESION:b {: RESULT = new RestaExpr(a, b, aleft, aright); :}
+            | EXPRESION:a MULT EXPRESION:b {: RESULT = new MultiplicacionExpr(a, b, aleft, aright); :}
+            | EXPRESION:a DIV EXPRESION:b {: RESULT = new DivisionExpr(a, b, aleft, aright); :}
+            | EXPRESION:a POW EXPRESION:b {: RESULT = new PotenciaExpr(a, b, aleft, aright); :}
             | EXPRESIONES_NATIVAS {: RESULT = a; :}
-            | ID
+            | ID:a {: RESULT = a; :}
             | PARENT_IZQ EXPRESION:a PARENT_DER {: RESULT = a; :}
 ;
 

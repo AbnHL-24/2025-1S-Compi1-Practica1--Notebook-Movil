@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.bsh.commands.dir
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -41,6 +43,10 @@ android {
 
 dependencies {
 
+    //implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    //implementation(files("libs/java-cup-11b.jar"))
+    implementation(files("libs/java-cup-11b-runtime.jar"))
+    //implementation(files("libs/jflex-full-1.9.1.jar"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

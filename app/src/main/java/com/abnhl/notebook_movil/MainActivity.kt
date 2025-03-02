@@ -8,14 +8,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -25,22 +23,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.abnhl.notebook_movil.controller.pruebas.CodePruebas
 import com.abnhl.notebook_movil.model.ui.TipoEntrada
 import com.abnhl.notebook_movil.ui.theme._20251SCompi1Practica1NotebookMovilTheme
 import java.util.Locale
@@ -83,6 +77,7 @@ fun GestionDeEntradas(modifier: Modifier = Modifier) {
 
     var entrada by remember { mutableStateOf("") }
     var salida by remember { mutableStateOf("") }
+    val codePruebas = CodePruebas()
 
     LazyColumn(
         modifier = Modifier
@@ -97,13 +92,14 @@ fun GestionDeEntradas(modifier: Modifier = Modifier) {
                 item {
                     ElevatedButton(onClick = {
                         //elementos.add(TipoEntrada.TEXTO)  // Guardamos solo el tipo de entrada
-                    }) { Text("Texto") }
+                    }) { Text("Ejecutar texto") }
                 }
 
                 item {
                     ElevatedButton(onClick = {
                         //elementos.add(TipoEntrada.CODIGO)
-                    }) { Text("Código") }
+                        codePruebas.ejecutar(entrada)
+                    }) { Text("Ejecutar código") }
                 }
             }
         }

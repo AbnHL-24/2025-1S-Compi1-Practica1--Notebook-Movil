@@ -86,9 +86,10 @@ EXPRESION ::= EXPRESION:a MAS EXPRESION:b {: RESULT = new SumaExpr(a, b, aleft, 
             | EXPRESION:a MULT EXPRESION:b {: RESULT = new MultiplicacionExpr(a, b, aleft, aright); :}
             | EXPRESION:a DIV EXPRESION:b {: RESULT = new DivisionExpr(a, b, aleft, aright); :}
             | EXPRESION:a POW EXPRESION:b {: RESULT = new PotenciaExpr(a, b, aleft, aright); :}
+            | PARENT_IZQ EXPRESION:a PARENT_DER {: RESULT = a; :}
             | EXPRESIONES_NATIVAS:a {: RESULT = a; :}
 //            | ID:a {: RESULT = a; :}
-            | PARENT_IZQ EXPRESION:a PARENT_DER {: RESULT = a; :}
+            //| EXPRESION:a {: RESULT = a; :}
 ;
 
 EXPRESIONES_NATIVAS ::= DECIMAL:a {: RESULT = new NativoExpr(Double.parseDouble(a), Tipo(TipoDato.DECIMAL), aleft, aright); :}

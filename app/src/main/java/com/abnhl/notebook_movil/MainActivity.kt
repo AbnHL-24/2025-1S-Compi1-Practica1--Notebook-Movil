@@ -24,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +39,8 @@ import com.abnhl.notebook_movil.controller.pruebas.CodePruebas
 import com.abnhl.notebook_movil.model.ui.TipoEntrada
 import com.abnhl.notebook_movil.ui.theme._20251SCompi1Practica1NotebookMovilTheme
 import java.util.Locale
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,9 +78,9 @@ fun ViewContainer(/*InnerPadding: Modifier = Modifier*/) {
 @Composable
 fun GestionDeEntradas(modifier: Modifier = Modifier) {
 
-    var entrada by remember { mutableStateOf("") }
-    var salida by remember { mutableStateOf("") }
-    val codePruebas = CodePruebas()
+    var entrada = remember { mutableStateOf("") }
+    var salida = remember { mutableStateOf("") }
+    var codePruebas = CodePruebas()
 
     LazyColumn(
         modifier = Modifier
@@ -98,7 +101,7 @@ fun GestionDeEntradas(modifier: Modifier = Modifier) {
                 item {
                     ElevatedButton(onClick = {
                         //elementos.add(TipoEntrada.CODIGO)
-                        codePruebas.ejecutar(entrada)
+                        salida.value = codePruebas.ejecutar(entrada.value)
                     }) { Text("Ejecutar código") }
                 }
             }
@@ -108,8 +111,8 @@ fun GestionDeEntradas(modifier: Modifier = Modifier) {
         }
         item {
             OutlinedTextField(
-                value = entrada,
-                onValueChange = { entrada = it },
+                value = entrada.value,
+                onValueChange = { entrada.value = it },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Ingrese su código") },
                 maxLines = Int.MAX_VALUE
@@ -119,11 +122,11 @@ fun GestionDeEntradas(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(2.dp))
         }
         item {
-            //Text(text = salida)
+            /*Text(text = salida)*/
             Card(
                 modifier = Modifier
                     .fillMaxSize()
-            ) { Text(modifier = Modifier.padding(5.dp), text = salida) }
+            ) { Text(modifier = Modifier.padding(5.dp), text = salida.value) }
         }
     }
 

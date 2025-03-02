@@ -6,12 +6,14 @@ import com.abnhl.notebook_movil.model.interprete.codigo.excepciones.Errores
 import java.util.LinkedList
 
 class Arbol(
-    val instrucciones: MutableList<Instruccion> = mutableStateListOf(),
-    private val consola: String = "",
-    val errores: MutableList<Errores> = mutableListOf(),
-    val tablaGobal: TablaSimbolos,
-    val funciones: MutableList<Instruccion> = mutableListOf()
+    val instrucciones: LinkedList<Instruccion>
 ) {
+    val consola: String = ""
+    var errores: LinkedList<Errores> = LinkedList()
+    var tablaGobal: TablaSimbolos = TablaSimbolos()
+    var funciones: LinkedList<Instruccion> = LinkedList()
+
+
     fun print(valor: String) {
         this.consola.plus(valor)
     }

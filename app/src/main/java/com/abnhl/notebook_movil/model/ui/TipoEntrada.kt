@@ -1,4 +1,4 @@
-package com.abnhl.notebook_movil.ui
+package com.abnhl.notebook_movil.model.ui
 
 enum class TipoEntrada {
     TEXTO, CODIGO

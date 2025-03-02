@@ -10,7 +10,11 @@ class NativoExpr(
     tipo: Tipo,
     linea: Int,
     columna: Int
-) : Instruccion(tipo, linea, columna) {
+) : Instruccion(
+    tipo,
+    linea,
+    columna
+) {
     override fun interpretar(
         arbol: Arbol,
         tablaDeSimbolos: TablaSimbolos

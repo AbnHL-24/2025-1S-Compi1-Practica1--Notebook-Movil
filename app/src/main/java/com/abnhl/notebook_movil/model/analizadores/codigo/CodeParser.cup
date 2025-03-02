@@ -10,6 +10,8 @@ import com.abnhl.notebook_movil.model.interprete.codigo.excepciones.*;
 import com.abnhl.notebook_movil.model.interprete.codigo.abstracto.*;
 // Expresiones.
 import com.abnhl.notebook_movil.model.interprete.codigo.expresiones.*;
+import com.abnhl.notebook_movil.model.interprete.codigo.expresiones.operadores.*;
+import com.abnhl.notebook_movil.model.interprete.codigo.expresiones.operadores.aritmeticos.*;
 // Instrucciones.
 import com.abnhl.notebook_movil.model.interprete.codigo.instrucciones.*;
 // Excepciones y errores.
@@ -18,6 +20,10 @@ parser code
 {:
     CodeLexer codeLexer;
     CodeParser(CodeLexer codeLexer) { this.codeLexer = codeLexer; }
+
+    public static Tipo Tipo(TipoDato tipoDato) {
+            return new Tipo(tipoDato);
+    }
 
     /*// Errores recuperables.
     public void syntax_error(Symbol s) {
@@ -69,7 +75,7 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b {: RESULT = a; RESULT.add(b); :}
                                    RESULT.add(a); :}
 ;
 
-INSTRUCCION ::= IMPRESION
+INSTRUCCION ::= IMPRESION:a {: RESULT = a; :}
 ;
 
 IMPRESION ::= PRINT PARENT_IZQ EXPRESION:a PARENT_DER {: RESULT = new ImprimirInst(a, aleft, aright); :}
@@ -80,8 +86,8 @@ EXPRESION ::= EXPRESION:a MAS EXPRESION:b {: RESULT = new SumaExpr(a, b, aleft, 
             | EXPRESION:a MULT EXPRESION:b {: RESULT = new MultiplicacionExpr(a, b, aleft, aright); :}
             | EXPRESION:a DIV EXPRESION:b {: RESULT = new DivisionExpr(a, b, aleft, aright); :}
             | EXPRESION:a POW EXPRESION:b {: RESULT = new PotenciaExpr(a, b, aleft, aright); :}
-            | EXPRESIONES_NATIVAS {: RESULT = a; :}
-            | ID:a {: RESULT = a; :}
+            | EXPRESIONES_NATIVAS:a {: RESULT = a; :}
+//            | ID:a {: RESULT = a; :}
             | PARENT_IZQ EXPRESION:a PARENT_DER {: RESULT = a; :}
 ;
 

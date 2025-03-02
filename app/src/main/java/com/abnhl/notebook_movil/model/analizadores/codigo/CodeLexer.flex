@@ -3,11 +3,12 @@ package com.abnhl.notebook_movil.model.analizadores.codigo;
 // Importaciones.
 import java_cup.runtime.*;
 import java.util.LinkedList;
+import com.abnhl.notebook_movil.model.interprete.codigo.excepciones.Errores;
 
 %%
 // Código de usuario, de ser necesario.
 %{
-    //public LinkedList<ErroresExpresiones> erroresCodeLexer = LinkedList<ErroresExpresiones>();
+    public LinkedList<Errores> erroresCodeLexer = new LinkedList<Errores>();
 %}
 
 %init{
